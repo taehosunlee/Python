@@ -82,3 +82,20 @@ import sys
 args=sys.argv[1:]
 for i in args :
     print(i.upper(), end=' ')
+
+
+    
+
+## read로 파일 전체 읽어온다음에, 파일 안의 내용 바꾸기.
+## 이 경우 꼭 read()로 해야함. readline은 list형태로 저장하기 때문에 안된다.
+
+with open('test.txt', 'r') as f :
+    body=f.read()
+
+
+body3=body.replace("Java","Python")
+
+print(body3)
+
+with open('test.txt', 'w') as f : 
+    f.write(body3)
