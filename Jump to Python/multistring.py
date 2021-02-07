@@ -137,5 +137,3 @@ b=b.split(":") # :로 나눔 -> 리스트 됨
 
 print(a)
 print(b)
-
-![image](https://user-images.githubusercontent.com/74906210/107152892-e4928b80-69ad-11eb-9881-9d8d2adf70e9.png)
