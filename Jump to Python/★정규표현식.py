@@ -44,7 +44,7 @@ print(pat.sub("\g<1>-*******",data,count=1))  # 해당 문자열들을 치환. c
 # match 의 결과로 match 객체 또는 None을 돌려주기에, 보통 하기처럼 사용함.
 '''
 import re
-p=recompile(정규표현식)
+p=re.compile(정규표현식)
 m-p.match("조사할 문자열")
 if m :
     print('Match Found : ',m.group())
