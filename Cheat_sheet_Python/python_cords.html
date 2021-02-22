@@ -5,20 +5,135 @@
 <meta charset="utf-8">
 </head>
 
+<span style=" font-family: Arial,Helvetica Neue,Helvetica,sans-serif ;">
 <body>
   <ol>
     <li><a href="..\index.html">Index</a></li>
   </ol>
 
   <h1> Cord</h1>
-<ul>
-  <p style="margin-top:40px;">
-      <li><strong>1) 이중 리스트</strong>
+  <ul>
+      <li>
+        <strong>1) 이중 리스트</strong>
         <br>d = [[0 for j in range(10)] for i in range(5)]   # 5행 10열
-        <br><img src="picture\double_list.png"></li><br>
+        <br><img src="picture\double_list.png">
+      </li><br><br><br>
 
-    </ul>
-  </p>
 
-</ul>
+      <li>
+        <strong>2) 정규식</strong>
+
+          <p><strong>a) 기본 메타 문자 list</strong>
+          <br> 기본 : [a-c] : a~c , [0-5] : 012345
+          <br> ^ : not.  예를들어 [^0-9] : 숫자가 아닌 문자만 매치됨.
+          <br> \d :숫자와 매치. [0-9]와 동일  //  \D : 숫자가 아닌것과 매치. [^0-9]
+          <br> \s : whitespace  [\t\n\r\f\v]와 동일 표현  // \S : whitespace가 아닌 것
+          <br> \w : 문자+숫자 와 매치  [a-zA-Z0-9]와 동일.  //  \W : 문자+숫자가 아닌 문자와 매치됨.
+          <br> . : 줄바꿈을 제외한 어떤 문자가 들어가도 매치.  ex)  [a.b] : a0b, aab 등 모두 매치
+          <br> [.] : 이 경우 문자 그대로의 .을 의미.  ex) [a.b] : a.b만 매치됨
+          <br> * : 반복.  0부터 반복 [ca*t] : ct, cat, caaaaaaat  모두 매치
+          <br> + : 반복.  1부터 반복 [ca+t] : cat, caaat 매치.  ct 매치안됨
+          <br> {m,n} : 반복.  반복 횟수를 정해줌.
+          <br> 예를들어.   ca{2}t : caat 만 매칭. / ca{2,5}t : caat ~ caaaaat 매칭
+          <br> ? : 0 또는 1 반복.  [ab?c] :  ac or abc 만 매칭</p><br>
+          -------------------------------------------------------------------------------------------------------------------------
+
+
+          <p> <strong>b) re 모듈 및 여러 메서드</strong>
+            <br> 파이썬은 정규 표현식을 지원하기 위해 re(regular expression) 모듈을 지원한다.
+            <br> 사용 방법은 아래와 같다.
+            <br> >> import re
+            <br> >> p=re.compile('ab*')   --> compile 함수를 통해 패턴객체 p를 정의한다 '(ab*) 의 형태만 가져온다'
+            <br>
+            <br> 1) match와 search : 하나만 찾는다.
+            <br> match() : 문자열 처음부터 정규식과 매치되는지 조사  , 매치되는 객체 돌려줌.  match는 처음부터 매칭 안되면 Fail나서 None뜸
+            <br> search() : 문자열 전체를 검색하여 정규식과 매치되는지 조사
+            <br><br> 2) findall과 finditer : 매칭되는거 다 찾음.
+            <br> findall() : 정규식과 매치되는 모든 문자열(substring)을 리스트로 돌려준다.
+            <br> finditer() : 정규식과 매치되는 모든 문자열(substring)을 반복 가능한 객체로 돌려준다.
+            <br> group() : 매치된 문자열을 돌려준다
+            <br> start() 매치된 문자열의 시작 위치를 돌려준다
+            <br> end() : 매치된 문자열의 끝 위치를 돌려준다
+            <br> span() : 매치된 문자열의 (시작,끝) 튜플을 돌려준다
+            <br><br> 압축하기##
+            <br>p=re.compile('[a-z]+')
+            <br>m=p.match("python")
+            <br><br>m=re.match('[a-z]+', "python")    이렇게 압축 가능하다.</p>
+            -------------------------------------------------------------------------------------------------------------------------
+
+          <p> <strong>c) 컴파일 옵션</strong>
+            <br> DOTALL(=S) : dot 문자(.)가 줄바꿈을 포함하여 모든 문자와 매치한다.
+            <br> p1=re.compile('a.b')  //  p2=re.compile('a.b', re.DOTALL)
+            <br> m=p.match('a\nb')
+            <br> p1는 None.  p2는 a\nb 매치    --> <u>보통 re.dotall 은 여러 줄로 이루어진 문자열에서 \n에 상관없이 검색할 때 많이 사용</u>
+            <br>
+            <br> IGNORECASE(=I) : 대.소문자 구별 없이 매치를 수행할 때 사용하는 옵션
+            <br> p2=re.compile('a.b', re.I)
+            <br>
+            <br> MULTILINE(=M) : 여러 줄과 매치.  ^,$ 의 메타문자와 연계된다.
+            <br> ^는 문자열의 처음을 의미하고 $는 끝을 의미한다.  예를들어 ^python인 경우 문자열의 처음은 항상 python으로 시작해야하며, python$인 경우 문자열의 마지막은 항상 python이어야 한다.
+            <br> ^를 쓰는데,  전체 문자열의 첫 문자만 매칭하는 것이 아닌, 각 라인의 첫 문자를 매칭시키고 싶을 경우 MULTILINE 쓴다.
+            <br>
+            <br> VERBOSE(=X) : verbose 모드 사용. 정규식을 보기 편하게 만들수도 있고 주석 등을 사용할 수도 있음.
+            <br> VERBOSE 사용시 문자열에 사용된 whitespace는 컴파일할 때 제거된다. 단, []안에 사용된 whitespace는 제외.
+            <br>
+            <br> 백슬래쉬 문제 : \section 나타내려면  \\\\section 으로 써야함 ( why? \쓰려면 \\ 써야하는데,  \s로 겹침 그래서 \\\\ 써야함)
+            <br> 그래서 r' 쓴다.  p=re.compile('\\\\section')  ==  p=re.compile(r'\\section')
+            <br> r' : Raw String. 컴파일하는 정규식이 Raw String임을 알려준다. 이걸 쓰면 \\ 가 \로 치환된다 ( 2개의 백슬러시가 1개와 동일한 의미를 가지게 됨.)
+            </p>
+
+            -------------------------------------------------------------------------------------------------------------------------
+          <p> <strong>d) 기타 메타문자</strong>
+            <br> | : or. &ebsp p=re.compile('Crow|Servo')
+            <br> ^ : 문자열 맨 처음과 일치함을 의미.  re.MULTILINE 사용시 각 라인의 맨 처음을 의미
+            <br> $ : 문장려 맨 끝이 일치해야함.  match쓰면 무조건 None뜸.  search 써야함.
+            <br> ### |,^,$ 을 문자 그대로 매칭시키고 싶으면 \| \^ \$ 쓰면 된다
+            <br> \A : 문자열 처음과 매치. ^와 동일하지만, re.MULTILINE 을 쓸 경우 달라짐. 멀티라인 쓸 경우 ^는 각 줄의 처음이지만, \A는 전체의 처음
+            <br> \Z : 문자열 끝. 마찬가지로 multiline에서 차이. (전체 문단에서 끝)
+            <br> \b : 단어구분자(word boundary). 보통 단어는 whitespace에 의해 구분된다.  \bclass\b -> 이 경우, ( class )  와 매칭됨.  (classmate is..) 와 매칭 안됨.  \bclass\b는 whitespace로 구분된 class
+            <br> \b 사용시 주의점 :  파이썬에서 \b는 백스페이스이므로  반드시 raw string이라는 r' 붙여줘야한다.
+            <br> \B : \b와 반대.  whitespace로 구분된 단어가 아닐경우 매칭
+          </p>
+
+          -------------------------------------------------------------------------------------------------------------------------
+
+        <p> <strong> e) 그루핑</strong>
+          <br> 예시1.  p=re.compile('(ABC+)') -> m=p.search('ABCABCABC OK?') -> ABCABCABC matched
+          <br> 예시2.
+          <br>  p=re.compile(r"\w+\s+\d+[-]\d+[-]\d+") -> m=p.search("park 010-1234-1234")  -> matched
+          <br>  p=re.compile(r"(\w+)\s+\d+[-]\d+[-]\d+")  -> m=p.search("park 010-1234-1234") -> print(m.group(1)) =  park
+          <br> "(\w+)\s+((\d+)[-]\d+[-]\d+)"  에서는?  (\w+) 이 g1  ((\d+)[-]\d+[-]\d+) 가 g2   (\d+)가 g3    바깥쪽에서 안쪽으로 들어갈수록 인덱스가 증가한다
+          <br>
+          <br> <u>그룹핑된 문자열 재 참조하기</u> : 재 참조 메타문자 \1 --> \1은 정규식의 그룹 중 첫번째 그룹을 가리킴
+          <br> p = re.compile(r'(\b\w+)\s+\1')  에서  (\b\w+)\s+1  은  "(그룹)+" "+(그룹과 동일한 단어)"  와 매칭됨을 의미한다.
+          <br> p = re.compile(r'(\b\w+)\s+\1')  m=p.search(" Paris in the the spring")  --> the the
+          <br>
+          <br> <u>그룹핑된 문자열 이름붙이기</u> : 그룹을 인덱스가 아닌 이름으로 참조하고 싶을 경우 그룹 내 맨 앞에 ?P<~~>를 붙인다.  어쨋든 이것도 그룹핑이므로 ()에 같이 싸야한다.
+          <br> (?P<"name">\w+)\s+(?P<"full_num">(?P<"first">\d+)[-]\d+[-]\d+)  -->  맨 첫 그룹 \w+는 name으로 명명
+          <br> p = re.compile(r'(\b\w+)\s+\1')  m=p.search(" Paris in the the spring")  --> the the
+               이렇게 사용된 (?...) 표현식은 정규 표현식의 확장 구문이다. 확장구문 사용시 가독성은 떨어지나 효과가 상당하다.
+               문자열 재 참조시 \1이 아닌 (?P=name)을 붙여줘도 된다.
+               p = re.compile(r'(\b\w+)\s+\1')  에 이름 붙이면 p = re.compile(r'(?P<"name">\b\w+)\s+(?P=name)')
+        </p>
+
+        -------------------------------------------------------------------------------------------------------------------------
+
+        <p> <strong> f) 전방탐색</strong>
+          <br> 긍정형 전방탐색 : (?=...)  ...에 해당하는 정규식과 매칭되어야하며 조건이 통과되어도 <u>문자열이 소비되지 않는다.</u> : ...가 검색은 되는데 결과값으로 나오진 않는다.
+          <br> 부정형 전방탐색 : (?!...)  ...에 해당하는 정규식과 매칭되지 않아야하며 조건이 통과되어도 <u>문자열이 소비되지 않는다.</u> : ...가 검색은 되는데 결과값으로 나오진 않는다.
+          <br> <img src="picture\search.png" >
+          <br> <img src="picture\sub.png" >
+
+        </p>
+
+        -------------------------------------------------------------------------------------------------------------------------
+
+        <p> <strong> g) Greedy vs Non-Greedy</strong>
+          <br> Non-Greedy 문자인 ? 을 사용하면 *의 탐욕을 제한할 수 있다.
+          <br> non-greedy 문자인 ?는 *?, +?, ??, {m,n}? 와 같이 사용할 수 있다. 가능한 한 최소한의 반복을 수행하도록 도와준다.
+          <br> <img src="picture\greedy.png" >
+        </p>
+
+
 </body>
+</span>
