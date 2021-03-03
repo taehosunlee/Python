@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+<title>기타 Information</title>
+<meta charset="utf-8">
+
+
+<style>
+  a{
+    color:black;
+    text-decoration: none;
+  }
+
+  h1{
+    text-align: center;
+    font-size: 60px;
+    border-bottom: 2px solid gray;
+    padding:5px;
+    margin: 0px;
+
+  }
+
+  #grid {
+    display: grid;
+    grid-template-columns: 150px 1fr 1fr 1fr;
+  }
+  #grid ol{
+    border-right : 2px solid gray;
+    width : 100px;
+    margin: 0;
+    padding: 15px;
+    padding-left: 32px;
+  }
+
+  #grid .article{  /*걍 #article만 써도 되긴 하지만, 부모를 보여주기위해 이렇게도 쓴다.*/
+    padding-left: 25px;
+    padding-top: 0px;
+    margin-top: 0px;
+    border-right: 2px solid gray;
+  }
+  @media(max-width:900px){
+      #grid {
+        display : block;  /* 600px보다 작을 때, grid가 블록으로 바뀜.*/
+      }
+  }
+</style>
+
+
+</head>
+
+<body>
+  <h1><a href="information.html" style="color:#4ca1e8">Information</a></h1>
+  <div id="grid">
+    <ol>
+      <li><a href="..\index.html">Index</a></li>
+    </ol>
+
+    <div class="article">
+      <p style="margin-top:80px;"><h2>bit 저장방식</h2><img src="picture\bit1.png" width="500px"><img src="picture\bit2.png" width="500px"></p>
+    </div>
+    <div class="article">
+      <p style="margin-top:80px;"><h2>소리 저장 방식</h2><img src="picture\sound.png"width="500px"><img src="picture\sound2.png" width="500px"></p>
+    </div>
+    <div class="article">
+      <p style="margin-top:80px;"><h2>그림 저장 방식</h2><img src="picture\picture_howtobesaved_in_computer.png"width="500px"><img src="picture\picture_howtobesaved_in_computer2.png" width="500px">
+      </p>
+    </div>
+
+  </div>
+</body>
